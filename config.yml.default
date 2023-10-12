@@ -1,0 +1,14 @@
+﻿storage_key: 
+
+rpl_token_address: 
+uniswap_router_address: 
+weth_address: 
+
+http:
+ port: 8888
+
+evm_instances:
+ ethereum:
+  id: 1
+  web3_connection_string: 
+  wss_connection_string: 
