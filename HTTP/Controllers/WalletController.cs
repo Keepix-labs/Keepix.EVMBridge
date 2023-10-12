@@ -59,5 +59,18 @@ namespace Keepix.EVMBridge.HTTP.Controllers
             });
         }
 
+        [HttpPost("{evmid}/swap_for_token")]
+        public async Task<IActionResult> RequestSwapForTokenFromEth(int evmid, [FromBody] Requests.RequestSwapForTokenFromEthRequest value)
+        {
+            var instance = EVMInstanceManager.EVMInstances.FirstOrDefault(x => x.EVMConnectionConfig.Id == evmid);
+            var tx = await instance.RequestSwapEthForToken(value.EthAmountToSwap);
+
+            return new JsonResult(new
+            {
+                block_number = tx.BlockNumber.ToString(),
+                block_hash = tx.BlockHash,
+                tx_hash = tx.TransactionHash
+            });
+        }
     }
 }

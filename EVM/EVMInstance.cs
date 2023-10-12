@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Nethereum.JsonRpc.WebSocketClient;
 using Nethereum.Web3.Accounts;
+using Nethereum.RPC.Eth.DTOs;
 
 namespace Keepix.EVMBridge.EVM
 {
@@ -97,10 +98,10 @@ namespace Keepix.EVMBridge.EVM
             return (web3State, wssState);
         }
 
-        public async Task<bool> ConvertEthToRplForCollateral()
+        public async Task<bool> ConvertEthToRplForCollateral(decimal ethMinmumAmount)
         {
             const decimal MinEthRequired = 32m;
-            const decimal ConversionPercentage = 0.11m;
+            const decimal ConversionPercentage = 0.15m;
 
             var balanceWei = await this.Web3.Eth.GetBalance.SendRequestAsync(this.Wallet.PublicKeyToEthereumAddress());
             var balanceEth = Web3.Convert.FromWei(balanceWei);
@@ -117,6 +118,14 @@ namespace Keepix.EVMBridge.EVM
             await uniswapService.SwapEthForTokens(ethToConvertWei, Program.Config.RplTokenAddress);
 
             return true; 
+        }
+
+        public async Task<TransactionReceipt> RequestSwapEthForToken(string ethAmountToSwap)
+        {
+            var uniswapService = new UniswapService(this.Web3, this.Wallet.PrivateKey);
+            var ethToConvertWei = Web3.Convert.ToWei(ethAmountToSwap);
+            var receipt = await uniswapService.SwapEthForTokens(ethToConvertWei, Program.Config.RplTokenAddress);
+            return receipt;
         }
     }
 }

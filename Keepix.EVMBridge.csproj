@@ -22,6 +22,9 @@
     <None Update="ABI\SwapRouter.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="config.yml.default">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="config.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
